@@ -1,0 +1,16 @@
+{
+  "hits": [
+    {
+      "src": "newfilms/new1.jpg",
+      "alt": "Panda"
+    },
+    {
+      "src": "newfilms/new2.jpg",
+      "alt": "Spiderman"
+    },
+    {
+      "src": "newfilms/new3.jpg",
+      "alt": "Harry"
+    }
+  ]
+}

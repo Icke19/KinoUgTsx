@@ -1,0 +1,28 @@
+.films {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Ustawienie grid */
+    justify-content: space-around;
+}
+
+.films img{
+    width: 400px;
+    height: 500px;
+    border-radius: 20px;
+    border: 1px solid white;
+
+}
+.films {
+    margin: 30px ;
+    border-bottom: 1px solid beige;
+    padding-bottom: 3rem;
+}
+
+.TextHit{
+    color: white;
+    margin-top: 20px;
+    margin-left: 40px;
+    letter-spacing: 2px;
+    font-family: Arial, sans-serif;
+}

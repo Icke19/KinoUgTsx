@@ -1,0 +1,16 @@
+{
+  "slides": [
+    {
+      "src": "hits/civilwar.jpg",
+      "alt": "Civilwar"
+    },
+    {
+      "src": "hits/godzilla.jpg",
+      "alt": "Godzilla"
+    },
+    {
+      "src": "hits/gameOfThrone.jpg",
+      "alt": "GameOfThrone"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "bilety": [
+    {
+      "src": "assets/normal.png",
+      "alt": "normalny"
+    },
+    {
+      "src": "assets/junior.png",
+      "alt": "junior"
+    },
+    {
+      "src": "assets/senior.png",
+      "alt": "senior"
+    }
+  ]
+}

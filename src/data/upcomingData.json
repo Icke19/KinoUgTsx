@@ -1,0 +1,16 @@
+{
+  "upcoming": [
+    {
+      "src": "upcoming/upcoming1.jpg",
+      "alt": "Challengers"
+    },
+    {
+      "src": "upcoming/upcoming2.jpg",
+      "alt": "Terminator"
+    },
+    {
+      "src": "upcoming/upcoming3.jpg",
+      "alt": "Ferrari"
+    }
+  ]
+}
