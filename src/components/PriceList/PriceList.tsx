@@ -1,6 +1,12 @@
 import "./PriceList.css";
 
-function PriceList({ isOpen, onClose }) {
+// Define the interface for the component's props
+interface PriceListProps {
+  isOpen: boolean;
+  onClose: () => void; // Assuming onClose is a function that takes no parameters and returns nothing
+}
+
+function PriceList({ isOpen, onClose }: PriceListProps) {
   console.log(isOpen);
   return (
     <>

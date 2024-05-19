@@ -1,7 +1,13 @@
 import "./Koszyk.css";
 import { Link } from "react-router-dom";
 
-const Koszyk = ({ zarezerwowaneMiejsca, cenaBiletu }) => {
+// Define an interface for the props
+interface KoszykProps {
+  zarezerwowaneMiejsca: number[];
+  cenaBiletu: number;
+}
+
+function Koszyk({ zarezerwowaneMiejsca, cenaBiletu }: KoszykProps) {
   return (
     <div className="koszyk">
       <h1>Twój koszyk</h1>
@@ -9,8 +15,8 @@ const Koszyk = ({ zarezerwowaneMiejsca, cenaBiletu }) => {
         <h2>Liczba zarezerwowanych miejsc: {zarezerwowaneMiejsca.length}</h2>
         <h2>Zarezerwowane miejsca:</h2>
         <ul className="koszyk-selected-seats">
-          {zarezerwowaneMiejsca.map((miejsce) => (
-            <li key={miejsce}>Miejsce {miejsce}</li>
+          {zarezerwowaneMiejsca.map((miejsce, index) => (
+            <li key={index}>Miejsce {miejsce}</li> // Changed key to index for better uniqueness
           ))}
         </ul>
         <h2>Końcowa cena biletu: {cenaBiletu} zł</h2>
@@ -20,6 +26,6 @@ const Koszyk = ({ zarezerwowaneMiejsca, cenaBiletu }) => {
       </Link>
     </div>
   );
-};
+}
 
 export default Koszyk;

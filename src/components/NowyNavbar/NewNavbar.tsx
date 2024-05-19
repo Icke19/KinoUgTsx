@@ -9,8 +9,6 @@ interface Props {
 }
 
 function NewNavbar({ isModalOpen, hideModal, onButtonClick }: Props) {
-  //
-
   return (
     <div>
       <PriceList isOpen={isModalOpen} onClose={hideModal} />
@@ -22,8 +20,10 @@ function NewNavbar({ isModalOpen, hideModal, onButtonClick }: Props) {
           <li>
             <Link to="/repertuar">Repertuar</Link>
           </li>
-          <li onClick={onButtonClick}>
-            <a>Cennik</a>
+          <li>
+            <a onClick={onButtonClick} className="price-list-button">
+              Cennik
+            </a>
           </li>
           <li>
             <Link to="/login">Konto</Link>

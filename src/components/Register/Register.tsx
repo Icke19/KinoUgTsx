@@ -1,31 +1,52 @@
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+
+interface FormState {
+  name: string;
+  surname: string;
+  email: string;
+  userName: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface ErrorsState {
+  email?: string;
+  userName?: string;
+  password?: string;
+  confirmPassword?: string;
+}
 
 function Register() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
+    name: "",
+    surname: "",
     email: "",
-    username: "",
+    userName: "",
     password: "",
     confirmPassword: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<ErrorsState>({});
   const [showPassword, setShowPassword] = useState(false);
   const [triedToSubmit, setTriedToSubmit] = useState(false);
 
-  const handleInputChange = (e) => {
+  const navigate = useNavigate();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
     }));
     if (triedToSubmit) {
-      validateInput(name, value);
+      validateInput(name as keyof FormState, value);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTriedToSubmit(true);
     const newErrors = validateForm();
@@ -34,37 +55,54 @@ function Register() {
     if (Object.keys(newErrors).length === 0) {
       console.log("Form submitted");
       alert("Rejestracja zakończona pomyślnie!");
-      // Tu można dodać logikę związana z rejestracją użytkownika
+    }
+    try{
+      const response = await axios.post("http://localhost:5269/api/Account/register", form);
+      if (response.status === 200) {
+        alert(response.data.message);
+        navigate('/login');
+      }
+    }catch(error) {
+      alert("Rejestracja nie powiodła się");
     }
   };
 
-  const validateInput = (name, value) => {
+  const validateInput = (name: keyof FormState, value: string) => {
     const tempErrors = { ...errors };
-    if (name === "email") {
-      tempErrors.email = /^\S+@\S+.\S+$/.test(value)
-        ? ""
-        : "Podaj poprawny adres email.";
-    } else if (name === "username") {
-      tempErrors.username = value.trim()
-        ? ""
-        : "Nazwa użytkownika jest wymagana.";
-    } else if (name === "password") {
-      tempErrors.password =
-        value.length >= 6 ? "" : "Hasło musi mieć co najmniej 6 znaków.";
-    } else if (name === "confirmPassword") {
-      tempErrors.confirmPassword =
-        value === form.password ? "" : "Hasła nie są identyczne.";
+    switch (name) {
+      case "email":
+        tempErrors.email = /^\S+@\S+\.\S+$/.test(value)
+          ? undefined
+          : "Podaj poprawny adres email.";
+        break;
+      case "userName":
+        tempErrors.userName = value.trim()
+          ? undefined
+          : "Nazwa użytkownika jest wymagana.";
+        break;
+      case "password":
+        tempErrors.password =
+          value.length >= 6
+            ? undefined
+            : "Hasło musi mieć co najmniej 6 znaków.";
+        break;
+      case "confirmPassword":
+        tempErrors.confirmPassword =
+          value === form.password ? undefined : "Hasła nie są identyczne.";
+        break;
+      default:
+        break;
     }
     setErrors(tempErrors);
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!/^\S+@\S+.\S+$/.test(form.email)) {
+  const validateForm = (): ErrorsState => {
+    const newErrors: ErrorsState = {};
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) {
       newErrors.email = "Podaj poprawny adres email.";
     }
-    if (!form.username.trim()) {
-      newErrors.username = "Nazwa użytkownika jest wymagana.";
+    if (!form.userName.trim()) {
+      newErrors.userName = "Nazwa użytkownika jest wymagana.";
     }
     if (form.password.length < 6) {
       newErrors.password = "Hasło musi mieć co najmniej 6 znaków.";
@@ -75,6 +113,8 @@ function Register() {
     return newErrors;
   };
 
+
+
   return (
     <>
       <form className="container" onSubmit={handleSubmit}>
@@ -84,42 +124,58 @@ function Register() {
         </div>
         <div className="inputs">
           <input
-            className="input"
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleInputChange}
+              className="input"
+              type="text"
+              name="name"
+              placeholder="Imie"
+              value={form.name}
+              onChange={handleInputChange}
+          />
+          <input
+              className="input"
+              type="text"
+              name="surname"
+              placeholder="Nazwisko"
+              value={form.surname}
+              onChange={handleInputChange}
+          />
+          <input
+              className="input"
+              type="text"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleInputChange}
           />
           {errors.email && <div className="error">{errors.email}</div>}
           <input
-            className="input"
-            type="text"
-            name="username"
-            placeholder="Nazwa użytkownika"
-            value={form.username}
-            onChange={handleInputChange}
+              className="input"
+              type="text"
+              name="userName"
+              placeholder="Nazwa użytkownika"
+              value={form.userName}
+              onChange={handleInputChange}
           />
-          {errors.username && <div className="error">{errors.username}</div>}
+          {errors.userName && <div className="error">{errors.userName}</div>}
           <input
-            className="input"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="Hasło"
-            value={form.password}
-            onChange={handleInputChange}
+              className="input"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Hasło"
+              value={form.password}
+              onChange={handleInputChange}
           />
           {errors.password && <div className="error">{errors.password}</div>}
           <input
-            className="input"
-            type={showPassword ? "text" : "password"}
-            name="confirmPassword"
-            placeholder="Potwierdź hasło"
-            value={form.confirmPassword}
-            onChange={handleInputChange}
+              className="input"
+              type={showPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Potwierdź hasło"
+              value={form.confirmPassword}
+              onChange={handleInputChange}
           />
           {errors.confirmPassword && (
-            <div className="error">{errors.confirmPassword}</div>
+              <div className="error">{errors.confirmPassword}</div>
           )}
         </div>
         <div>
@@ -127,9 +183,9 @@ function Register() {
             Pokaż hasło
           </label>
           <input
-            id="check"
-            className="checkbox"
-            type="checkbox"
+              id="check"
+              className="checkbox"
+              type="checkbox"
             checked={showPassword}
             onChange={(e) => setShowPassword(e.target.checked)}
           />

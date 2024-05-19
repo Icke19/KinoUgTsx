@@ -7,17 +7,15 @@ import Register from "./components/Register/Register.tsx";
 import SalaKinowa from "./components/SalaKinowa/SalaKinowa.tsx";
 import Koszyk from "./components/Koszyk/Koszyk.tsx";
 import { Routes, Route } from "react-router-dom";
-
-interface MiejsceRezerwacji {
-  cenaBiletu: number;
-}
+import Profil from "./components/Profil/Profil.tsx";
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [zarezerwowaneMiejsca, setZarezerwowaneMiejsca] = useState<
-    MiejsceRezerwacji[]
-  >([]);
-  const [cenaBiletu, setCenaBiletu] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [zarezerwowaneMiejsca, setZarezerwowaneMiejsca] = useState<number[]>(
+    [],
+  );
+
+  const [cenaBiletu, setCenaBiletu] = useState<number>(0);
 
   function showModal() {
     setIsModalOpen(true);
@@ -27,13 +25,12 @@ function App() {
     setIsModalOpen(false);
   }
 
-  function handlePotwierdzRezerwacje(
-    zarezerwowaneMiejsca: MiejsceRezerwacji[],
-  ) {
-    const cena = zarezerwowaneMiejsca.length * 20;
+  function handlePotwierdzRezerwacje(zarezerwowaneMiejsca: number[]) {
+    const cena = zarezerwowaneMiejsca.length * 20; // Assuming each seat costs 20
     setCenaBiletu(cena);
     setZarezerwowaneMiejsca(zarezerwowaneMiejsca);
   }
+
   return (
     <>
       <NewNavbar
@@ -64,6 +61,7 @@ function App() {
             />
           }
         />
+          <Route path="/profil" element={<Profil/>}/>
       </Routes>
     </>
   );

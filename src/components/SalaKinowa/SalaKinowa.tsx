@@ -1,15 +1,22 @@
 import { useState } from "react";
-import Miejsce from "./Miejsce.js";
+import Miejsce from "./Miejsce"; // Ensure Miejsce is also converted to TSX with proper typings
 import { Link } from "react-router-dom";
 import "./SalaKinowa.css"; // Make sure this is correctly linked
 
-function SalaKinowa({ iloscMiejsc, onPotwierdzRezerwacje }) {
-  const [zarezerwowaneMiejsca, setZarezerwowaneMiejsca] = useState([]);
-  const [potwierdzoneMiejsca, setPotwierdzoneMiejsca] = useState([]);
+interface SalaKinowaProps {
+  iloscMiejsc: number;
+  onPotwierdzRezerwacje: (zarezerwowaneMiejsca: number[]) => void; // Assuming the callback takes an array of numbers
+}
+
+function SalaKinowa({ iloscMiejsc, onPotwierdzRezerwacje }: SalaKinowaProps) {
+  const [zarezerwowaneMiejsca, setZarezerwowaneMiejsca] = useState<number[]>(
+    [],
+  );
+  const [potwierdzoneMiejsca, setPotwierdzoneMiejsca] = useState<number[]>([]);
   const [rezerwacjaPotwierdzona, setRezerwacjaPotwierdzona] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const handleMiejsceClick = (miejsce) => {
+  const handleMiejsceClick = (miejsce: number) => {
     if (!rezerwacjaPotwierdzona) {
       const updatedZarezerwowane = zarezerwowaneMiejsca.includes(miejsce)
         ? zarezerwowaneMiejsca.filter((m) => m !== miejsce)

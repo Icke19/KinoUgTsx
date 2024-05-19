@@ -2,8 +2,16 @@ import { useEffect, useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, CircleDot, Circle } from "lucide-react";
 import "./ImageSlider.css";
 
-// eslint-disable-next-line react/prop-types
-function ImageSlider({ imageUrls }) {
+interface ImageUrl {
+  src: string;
+  alt: string;
+}
+
+interface ImageSliderProps {
+  imageUrls: ImageUrl[];
+}
+
+function ImageSlider({ imageUrls }: ImageSliderProps) {
   const [imageIndex, setImageIndex] = useState(0);
 
   function showNextImage() {
@@ -22,16 +30,13 @@ function ImageSlider({ imageUrls }) {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // eslint-disable-next-line react/prop-types
-      if (imageIndex === imageUrls.length - 1) {
-        setImageIndex(0);
-      } else {
-        setImageIndex(imageIndex + 1);
-      }
+      setImageIndex((index) =>
+        index === imageUrls.length - 1 ? 0 : index + 1,
+      );
     }, 5000);
 
     return () => clearInterval(intervalId);
-  });
+  }, [imageUrls.length, imageIndex]); // Added dependencies to useEffect to optimize re-render
 
   return (
     <div style={{ width: "100%", height: "100%", position: "relative" }}>
