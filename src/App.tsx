@@ -7,7 +7,7 @@ import Register from "./components/Register/Register.tsx";
 import SalaKinowa from "./components/SalaKinowa/SalaKinowa.tsx";
 import Koszyk from "./components/Koszyk/Koszyk.tsx";
 import { Routes, Route } from "react-router-dom";
-import Profil from "./components/Profil/Profil.tsx";
+import Profile from "./components/Profil/Profil.tsx";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -61,7 +61,7 @@ function App() {
             />
           }
         />
-          <Route path="/profil" element={<Profil/>}/>
+          <Route path="/profile" element={<Profile/>}/>
       </Routes>
     </>
   );

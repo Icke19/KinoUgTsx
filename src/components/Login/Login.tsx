@@ -1,7 +1,7 @@
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // Define interfaces for the form and errors
 interface LoginForm {
@@ -15,23 +15,15 @@ interface LoginErrors {
 }
 
 function Login() {
-  const [form, setForm] = useState<LoginForm>({
-    email: "",
-    password: "",
-  });
-
-
-  const navigate = useNavigate();
-
+  const [form, setForm] = useState<LoginForm>({ email: "", password: "" });
   const [errors, setErrors] = useState<LoginErrors>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [generalError, setGeneralError] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    setForm({ ...form, [name]: value });
     if (errors[name as keyof LoginErrors]) {
       validateInput(name, value);
     }
@@ -56,21 +48,26 @@ function Login() {
 
     if (Object.keys(newErrors).length === 0 && form.email && form.password) {
       try {
-        const response = await axios.post('https://localhost:7204/api/Account/login', form, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+        const response = await axios.post('http://localhost:5269/api/Account/login', form, {
+          headers: { 'Content-Type': 'application/json' }
         });
-        localStorage.setItem('token', response.data.Token);
-        alert('User logged in successfully');
-        navigate('/');  // Przekierowanie na stronę główną
 
+        console.log('Response:', response); // Dodaj to logowanie, aby zobaczyć pełną odpowiedź
+        if (response.data && response.data.token) {
+          localStorage.setItem('token', response.data.token);
+          alert('User logged in successfully');
+          navigate('/');
+        } else {
+          console.error('Token is missing in response');
+          setGeneralError('Token is missing in response');
+        }
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error('Axios error:', error.response?.data);
-          alert(`Login failed: ${error.response?.data.message || error.message}`);
+          setGeneralError(error.response?.data.message || 'An unexpected error occurred. Please try again.');
         } else {
           console.error('Unexpected error:', error);
+          setGeneralError('An unexpected error occurred. Please try again.');
         }
       }
     }
@@ -126,14 +123,8 @@ function Login() {
                 onChange={(e) => setShowPassword(e.target.checked)}
             />
           </div>
+          {generalError && <div className="error">{generalError}</div>}
           <button className="submit">Zaloguj się</button>
-          <ul>
-            <li className="create-account">
-              <Link to="/register">
-                Nie posiadasz jeszcze konta? <span>Zarejestruj się!</span>
-              </Link>
-            </li>
-          </ul>
         </form>
       </>
   );

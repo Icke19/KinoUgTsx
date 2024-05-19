@@ -7,7 +7,7 @@ interface FormState {
   name: string;
   surname: string;
   email: string;
-  userName: string;
+  // userName: string;
   password: string;
   confirmPassword: string;
 }
@@ -24,7 +24,7 @@ function Register() {
     name: "",
     surname: "",
     email: "",
-    userName: "",
+    // userName: "",
     password: "",
     confirmPassword: "",
   });
@@ -75,11 +75,11 @@ function Register() {
           ? undefined
           : "Podaj poprawny adres email.";
         break;
-      case "userName":
-        tempErrors.userName = value.trim()
-          ? undefined
-          : "Nazwa użytkownika jest wymagana.";
-        break;
+      // case "userName":
+      //   tempErrors.userName = value.trim()
+      //     ? undefined
+      //     : "Nazwa użytkownika jest wymagana.";
+      //   break;
       case "password":
         tempErrors.password =
           value.length >= 6
@@ -101,9 +101,9 @@ function Register() {
     if (!/^\S+@\S+\.\S+$/.test(form.email)) {
       newErrors.email = "Podaj poprawny adres email.";
     }
-    if (!form.userName.trim()) {
-      newErrors.userName = "Nazwa użytkownika jest wymagana.";
-    }
+    // if (!form.userName.trim()) {
+    //   newErrors.userName = "Nazwa użytkownika jest wymagana.";
+    // }
     if (form.password.length < 6) {
       newErrors.password = "Hasło musi mieć co najmniej 6 znaków.";
     }
@@ -148,14 +148,14 @@ function Register() {
               onChange={handleInputChange}
           />
           {errors.email && <div className="error">{errors.email}</div>}
-          <input
-              className="input"
-              type="text"
-              name="userName"
-              placeholder="Nazwa użytkownika"
-              value={form.userName}
-              onChange={handleInputChange}
-          />
+          {/*<input*/}
+          {/*    className="input"*/}
+          {/*    type="text"*/}
+          {/*    name="userName"*/}
+          {/*    placeholder="Nazwa użytkownika"*/}
+          {/*    value={form.userName}*/}
+          {/*    onChange={handleInputChange}*/}
+          {/*/>*/}
           {errors.userName && <div className="error">{errors.userName}</div>}
           <input
               className="input"
