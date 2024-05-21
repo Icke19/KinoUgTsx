@@ -1,23 +1,48 @@
 .koszyk {
-    padding: 20px;
+    margin: 100px auto;
+    background-color: #ffffff; /* Light background color for contrast */
+    padding: 30px; /* Increase padding for larger size */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     text-align: center;
+    max-width: 500px; /* Slightly increase max width */
+    width: 90%; /* Allow some flexibility in width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.koszyk h2 {
+    color: #333; /* Darker color for the heading */
+    font-size: 24px; /* Slightly larger font size for the heading */
+    margin-bottom: 15px; /* Increase margin for better spacing */
 }
 
 .koszyk p {
-    font-size: 16px;
-    margin: 10px 0;
+    color: #555; /* Slightly lighter color for the paragraph text */
+    font-size: 18px; /* Slightly larger font size for the paragraph */
+    margin: 15px 0; /* Increase margin for better spacing */
 }
 
 button {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px; /* Increase padding for larger button */
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 25px; /* Increase margin for better spacing */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+    font-size: 16px; /* Slightly larger font size for button text */
 }
 
 button:hover {
     background-color: #0056b3;
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+button:active {
+    background-color: #004494;
+    transform: translateY(0); /* Reset lift effect on active */
 }

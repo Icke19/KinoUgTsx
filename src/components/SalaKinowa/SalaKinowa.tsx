@@ -98,7 +98,7 @@ const SalaKinowa: React.FC = () => {
 
   return (
     <div className="hall">
-      <h2>Sala Kinowa</h2>
+      <div className="screen">Ekran</div>
       <div className="seats">
         {hall.seats.length > 0 ? (
           hall.seats.map((seat) => (

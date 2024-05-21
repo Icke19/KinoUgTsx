@@ -8,6 +8,7 @@ interface MinSchedule {
   date: string;
   movieTitle: string;
   image: string;
+  description: string;
 }
 
 const fetchScheduleList = async (): Promise<MinSchedule[]> => {
@@ -45,6 +46,7 @@ const Repertuar: React.FC = () => {
           <div className="movie-details">
             <h2>{schedule.movieTitle}</h2>
             <p>{new Date(schedule.date).toLocaleString()}</p>
+            <p>{schedule.description}</p>
             <ul>
               <li className="buy-ticket">
                 <Link to={`/salakinowa/${schedule.id}`}>Kup bilet</Link>

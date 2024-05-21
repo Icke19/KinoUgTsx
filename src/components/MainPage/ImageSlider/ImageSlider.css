@@ -9,7 +9,7 @@
     height: 100%;
     flex-shrink: 0;
     flex-grow: 0;
-    transition: translate 300ms ease-in-out;
+    transition: translate 1s ease-in-out;
 }
 
 .img-slider-btn{
