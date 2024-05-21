@@ -1,98 +1,128 @@
-import { useState } from "react";
-import Miejsce from "./Miejsce";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./SalaKinowa.css";
 
-interface SalaKinowaProps {
-  iloscMiejsc: number;
-  onPotwierdzRezerwacje: (zarezerwowaneMiejsca: number[]) => void;
+interface Seat {
+  seatId: number;
+  row: number;
+  column: number;
+  isReserved?: boolean; // Optional, will be determined locally
 }
 
-function SalaKinowa({ iloscMiejsc, onPotwierdzRezerwacje }: SalaKinowaProps) {
-  const [zarezerwowaneMiejsca, setZarezerwowaneMiejsca] = useState<number[]>(
-    [],
-  );
-  const [potwierdzoneMiejsca, setPotwierdzoneMiejsca] = useState<number[]>([]);
-  const [rezerwacjaPotwierdzona, setRezerwacjaPotwierdzona] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+interface Hall {
+  hallId: number;
+  seats: Seat[];
+}
 
-  const handleMiejsceClick = (miejsce: number) => {
-    if (!rezerwacjaPotwierdzona) {
-      const updatedZarezerwowane = zarezerwowaneMiejsca.includes(miejsce)
-        ? zarezerwowaneMiejsca.filter((m) => m !== miejsce)
-        : [...zarezerwowaneMiejsca, miejsce];
-      setZarezerwowaneMiejsca(updatedZarezerwowane);
-    }
+interface Ticket {
+  seatId: number;
+  scheduleId: number; // Added scheduleId
+}
+
+const fetchHall = async (hallId: number): Promise<Hall> => {
+  try {
+    const response = await axios.get<Hall>(
+      `https://localhost:7204/api/Hall/${hallId}`,
+    );
+    console.log("Fetched hall data:", response.data); // Debugging
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching hall data:", error);
+    return { hallId, seats: [] };
+  }
+};
+
+const fetchReservedSeats = async (scheduleId: number): Promise<number[]> => {
+  try {
+    const response = await axios.get<Ticket[]>(
+      `https://localhost:7204/api/Ticket`,
+    );
+    console.log("Fetched tickets:", response.data); // Debugging
+    const reservedSeats = response.data
+      .filter((ticket) => ticket.scheduleId === scheduleId)
+      .map((ticket) => ticket.seatId);
+    return reservedSeats;
+  } catch (error) {
+    console.error("Error fetching reserved seats:", error);
+    return [];
+  }
+};
+
+const SalaKinowa: React.FC = () => {
+  const { id } = useParams<{ id: string }>(); // This is the scheduleId
+  const hallId = 1; // Stałe hallId
+  const [hall, setHall] = useState<Hall>({ hallId, seats: [] });
+  const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const loadHallData = async () => {
+    const hallData = await fetchHall(hallId);
+    const reservedSeatIds = await fetchReservedSeats(Number(id));
+    hallData.seats.forEach((seat) => {
+      seat.isReserved = reservedSeatIds.includes(seat.seatId);
+    });
+    console.log("Setting hall data with reserved seats:", hallData); // Debugging
+    setHall(hallData);
   };
 
-  const handlePotwierdzRezerwacje = () => {
-    if (zarezerwowaneMiejsca.length === 0) {
-      setShowModal(true);
-    } else {
-      setPotwierdzoneMiejsca(zarezerwowaneMiejsca);
-      setRezerwacjaPotwierdzona(true);
-      onPotwierdzRezerwacje(zarezerwowaneMiejsca);
+  useEffect(() => {
+    loadHallData();
+  }, [id]);
+
+  useEffect(() => {
+    // Reload hall data when navigating back from another page
+    if (location.state && location.state.reload) {
+      loadHallData();
     }
+  }, [location.state]);
+
+  const toggleSeatSelection = (seatId: number) => {
+    setSelectedSeats((prevSelectedSeats) =>
+      prevSelectedSeats.includes(seatId)
+        ? prevSelectedSeats.filter((id) => id !== seatId)
+        : [...prevSelectedSeats, seatId],
+    );
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handlePurchase = () => {
+    if (selectedSeats.length === 0) {
+      alert("Proszę wybrać co najmniej jedno miejsce.");
+      return;
+    }
+    navigate("/koszyk", {
+      state: { selectedSeats, scheduleId: id, reload: true },
+    });
   };
 
   return (
-    <div className="sala-kinowa">
-      <div className="screen">EKRAN</div>
-      <div className="cinema-layout">
-        <div className="seats-area">
-          <div className="seats">
-            {Array.from({ length: iloscMiejsc }, (_, index) => (
-              <Miejsce
-                key={index}
-                numer={index + 1}
-                zarezerwowane={zarezerwowaneMiejsca.includes(index + 1)}
-                potwierdzone={potwierdzoneMiejsca.includes(index + 1)}
-                handleClick={handleMiejsceClick}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="control-area">
-        <div className="selected-seats">
-          {zarezerwowaneMiejsca.length > 0 ? (
-            <>
-              <h2>Wybrane miejsca:</h2>
-              <ul>
-                {zarezerwowaneMiejsca.map((miejsce) => (
-                  <li key={miejsce}>Miejsce {miejsce}</li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <h2>Brak wybranych miejsc</h2>
-          )}
-        </div>
-        {!rezerwacjaPotwierdzona && (
-          <button
-            className="confirm-button"
-            onClick={handlePotwierdzRezerwacje}
-          >
-            <Link to="/koszyk">Potwierdź rezerwację</Link>
-          </button>
-        )}
-        {showModal && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <button className="modal-close-btn" onClick={handleCloseModal}>
-                &times;
-              </button>
-              <p>Żadne miejsce nie zostało wybrane</p>
+    <div className="hall">
+      <h2>Sala Kinowa</h2>
+      <div className="seats">
+        {hall.seats.length > 0 ? (
+          hall.seats.map((seat) => (
+            <div
+              key={seat.seatId}
+              className={`seat ${seat.isReserved ? "reserved" : ""} ${
+                selectedSeats.includes(seat.seatId) ? "selected" : ""
+              }`}
+              onClick={() =>
+                !seat.isReserved && toggleSeatSelection(seat.seatId)
+              }
+            >
+              {seat.row}-{seat.column}
             </div>
-          </div>
+          ))
+        ) : (
+          <p>Brak dostępnych miejsc.</p>
         )}
       </div>
+      {hall.seats.length > 0 && (
+        <button onClick={handlePurchase}>Zakup bilet</button>
+      )}
     </div>
   );
-}
+};
 
 export default SalaKinowa;

@@ -1,29 +1,28 @@
-import "./Repertuar.css";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import "./Repertuar.css";
 
 interface MinSchedule {
   id: number;
-  date: Date;
+  date: string;
   movieTitle: string;
   image: string;
 }
 
-const fetchScheduleList = async () => {
+const fetchScheduleList = async (): Promise<MinSchedule[]> => {
   try {
     const response = await axios.get<MinSchedule[]>(
-      `https://localhost:7204/api/Schedule/all`,
+      "https://localhost:7204/api/Schedule/all",
     );
-    console.log("Fetched movies:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching images:", error);
+    console.error("Error fetching schedule list:", error);
     return [];
   }
 };
 
-function Repertuar() {
+const Repertuar: React.FC = () => {
   const [scheduleList, setScheduleList] = useState<MinSchedule[]>([]);
 
   useEffect(() => {
@@ -33,10 +32,11 @@ function Repertuar() {
     };
     fetchSchedule();
   }, []);
+
   return (
     <div className="repertuar">
-      {scheduleList.map((schedule, index) => (
-        <div key={index} className="movie">
+      {scheduleList.map((schedule) => (
+        <div key={schedule.id} className="movie">
           <img
             src={schedule.image}
             alt={schedule.movieTitle}
@@ -44,10 +44,10 @@ function Repertuar() {
           />
           <div className="movie-details">
             <h2>{schedule.movieTitle}</h2>
-            <p>{schedule.movieTitle}</p>
+            <p>{new Date(schedule.date).toLocaleString()}</p>
             <ul>
               <li className="buy-ticket">
-                <Link to="/salakinowa">Buy Ticket</Link>
+                <Link to={`/salakinowa/${schedule.id}`}>Kup bilet</Link>
               </li>
             </ul>
           </div>
@@ -55,6 +55,6 @@ function Repertuar() {
       ))}
     </div>
   );
-}
+};
 
 export default Repertuar;

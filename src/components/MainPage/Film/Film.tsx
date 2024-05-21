@@ -24,7 +24,7 @@ interface ImageUrl {
 
 export default function Film() {
   const [hits, setHits] = useState<ImageUrl[]>([]);
-  // const [upcoming, setUpcoming] = useState<ImageUrl[]>([]);
+  const [upcoming, setUpcoming] = useState<ImageUrl[]>([]);
 
   const fetchImagesByIds = async (ids: number[]) => {
     try {
@@ -63,14 +63,14 @@ export default function Film() {
     fetchImages();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchImages = async () => {
-  //     const images = await fetchImagesByIds([14, 15, 16]);
-  //     setUpcoming(images);
-  //     console.log("Set imageUrls:", images);
-  //   };
-  //   fetchImages();
-  // }, []);
+  useEffect(() => {
+    const fetchImages = async () => {
+      const images = await fetchImagesByIds([14, 15, 16]);
+      setUpcoming(images);
+      console.log("Set imageUrls:", images);
+    };
+    fetchImages();
+  }, []);
 
   return (
     <div className="FilmMenu">
@@ -80,12 +80,12 @@ export default function Film() {
           <img src={film.src} alt={film.alt} key={idx} /> // Use unique id for key if available
         ))}
       </ul>
-      {/*<h1 className="TextHit">WKRÓTCE!</h1>*/}
-      {/*<ul className="films">*/}
-      {/*  {upcoming.map((film, idx) => (*/}
-      {/*    <img src={film.src} alt={film.alt} key={idx} /> // Use unique id for key if available*/}
-      {/*  ))}*/}
-      {/*</ul>*/}
+      <h1 className="TextHit">WKRÓTCE!</h1>
+      <ul className="films">
+        {upcoming.map((film, idx) => (
+          <img src={film.src} alt={film.alt} key={idx} /> // Use unique id for key if available
+        ))}
+      </ul>
     </div>
   );
 }

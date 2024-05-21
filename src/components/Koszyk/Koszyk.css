@@ -1,57 +1,23 @@
 .koszyk {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
     padding: 20px;
     text-align: center;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-radius: 10px;
 }
 
-.info {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+.koszyk p {
+    font-size: 16px;
+    margin: 10px 0;
 }
 
-.koszyk-selected-seats{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-.koszyk-selected-seats li{
-    font-size: 1.2rem;
-}
-
-.info h2 {
-    margin-bottom: 10px;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.selected-seats {
-    margin: 0 auto; /* Dodane centrowanie */
-    text-align: center; /* Centrowanie zawartości tekstu */
-}
-
-.confirm-link {
-    display: inline-block;
-    padding: 10px 20px;
+button {
     background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
 }
 
-.confirm-link:hover {
+button:hover {
     background-color: #0056b3;
 }
