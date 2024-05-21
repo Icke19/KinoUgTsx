@@ -1,30 +1,50 @@
 import "./Repertuar.css";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+interface MinSchedule {
+  id: number;
+  date: Date;
+  movieTitle: string;
+  image: string;
+}
+
+const fetchScheduleList = async () => {
+  try {
+    const response = await axios.get<MinSchedule[]>(
+      `https://localhost:7204/api/Schedule/all`,
+    );
+    console.log("Fetched movies:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching images:", error);
+    return [];
+  }
+};
 
 function Repertuar() {
-  const movies = [
-    {
-      title: "Kaskader",
-      image: "public/newfilms/avatar.jpg",
-      description:
-        "A thrilling comedy about a daring stuntman who accidentally becomes a star in Hollywood.",
-    },
-    {
-      title: "Gniazdo pajaka",
-      image: "public/newfilms/chlopi.jpg",
-      description:
-        "A chilling tale of a family moving into a haunted house that hides dark secrets.",
-    },
-  ];
+  const [scheduleList, setScheduleList] = useState<MinSchedule[]>([]);
 
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      const scheduleListFromBackend = await fetchScheduleList();
+      setScheduleList(scheduleListFromBackend);
+    };
+    fetchSchedule();
+  }, []);
   return (
     <div className="repertuar">
-      {movies.map((movie, index) => (
+      {scheduleList.map((schedule, index) => (
         <div key={index} className="movie">
-          <img src={movie.image} alt={movie.title} className="movie-image" />
+          <img
+            src={schedule.image}
+            alt={schedule.movieTitle}
+            className="movie-image"
+          />
           <div className="movie-details">
-            <h2>{movie.title}</h2>
-            <p>{movie.description}</p>
+            <h2>{schedule.movieTitle}</h2>
+            <p>{schedule.movieTitle}</p>
             <ul>
               <li className="buy-ticket">
                 <Link to="/salakinowa">Buy Ticket</Link>

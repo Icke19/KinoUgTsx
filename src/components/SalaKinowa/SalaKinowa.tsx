@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Miejsce from "./Miejsce"; // Ensure Miejsce is also converted to TSX with proper typings
+import Miejsce from "./Miejsce";
 import { Link } from "react-router-dom";
-import "./SalaKinowa.css"; // Make sure this is correctly linked
+import "./SalaKinowa.css";
 
 interface SalaKinowaProps {
   iloscMiejsc: number;
-  onPotwierdzRezerwacje: (zarezerwowaneMiejsca: number[]) => void; // Assuming the callback takes an array of numbers
+  onPotwierdzRezerwacje: (zarezerwowaneMiejsca: number[]) => void;
 }
 
 function SalaKinowa({ iloscMiejsc, onPotwierdzRezerwacje }: SalaKinowaProps) {

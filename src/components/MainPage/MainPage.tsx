@@ -3,7 +3,6 @@ import ImageSlider from "./ImageSlider/ImageSlider.tsx";
 import Film from "./Film/Film.tsx";
 import { hits } from "../../data/hitsData.json";
 import { upcoming } from "../../data/upcomingData.json";
-import { slides } from "../../data/carouselData.json";
 
 // Define an interface for the component props
 interface MainPageProps {
@@ -31,11 +30,12 @@ function MainPage({ isModalOpen = false, hideModal }: MainPageProps) {
         style={{
           maxWidth: "2000px",
           width: "100%",
-          height: "486px",
+          maxHeight: "520px",
+          height: "100%",
           margin: "0 auto",
         }}
       >
-        <ImageSlider imageUrls={slides} />
+        <ImageSlider />
       </div>
       <Film hits={modifiedHits} upcoming={modifiedUpcoming} />
     </div>

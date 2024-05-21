@@ -8,6 +8,7 @@ import SalaKinowa from "./components/SalaKinowa/SalaKinowa.tsx";
 import Koszyk from "./components/Koszyk/Koszyk.tsx";
 import { Routes, Route } from "react-router-dom";
 import Profil from "./components/Profil/Profil.tsx";
+import Hall from "./components/Hall/Hall.tsx";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -52,6 +53,7 @@ function App() {
             />
           }
         />
+        <Route path="/hall" element={<Hall />} />
         <Route
           path="/koszyk"
           element={
@@ -61,7 +63,7 @@ function App() {
             />
           }
         />
-          <Route path="/profil" element={<Profil/>}/>
+        <Route path="/profil" element={<Profil />} />
       </Routes>
     </>
   );

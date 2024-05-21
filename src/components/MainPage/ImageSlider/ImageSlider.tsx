@@ -1,32 +1,68 @@
 import { useEffect, useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, CircleDot, Circle } from "lucide-react";
+import axios from "axios";
 import "./ImageSlider.css";
+
+interface Movie {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+}
 
 interface ImageUrl {
   src: string;
   alt: string;
 }
 
-interface ImageSliderProps {
-  imageUrls: ImageUrl[];
-}
-
-function ImageSlider({ imageUrls }: ImageSliderProps) {
+const ImageSlider = () => {
+  const [imageUrls, setImageUrls] = useState<ImageUrl[]>([]);
   const [imageIndex, setImageIndex] = useState(0);
 
-  function showNextImage() {
-    setImageIndex((index) => {
-      if (index === imageUrls.length - 1) return 0;
-      return index + 1;
-    });
-  }
+  const fetchImagesByIds = async (ids: number[]) => {
+    try {
+      const response = await axios.get<Movie[]>(
+        `https://localhost:7204/api/Movie/GetMoviesByIds`,
+        {
+          params: { ids },
+          paramsSerializer: (params) => {
+            return Object.keys(params)
+              .map((key) =>
+                params[key].map((val: number) => `${key}=${val}`).join("&"),
+              )
+              .join("&");
+          },
+        },
+      );
+      console.log("Fetched movies:", response.data);
+      const images = response.data.map((movie) => ({
+        src: movie.image,
+        alt: movie.title,
+      }));
+      console.log("Mapped images:", images);
+      return images;
+    } catch (error) {
+      console.error("Error fetching images:", error);
+      return [];
+    }
+  };
 
-  function showPrevImage() {
-    setImageIndex((index) => {
-      if (index === 0) return imageUrls.length - 1;
-      return index - 1;
-    });
-  }
+  useEffect(() => {
+    const fetchImages = async () => {
+      const images = await fetchImagesByIds([4, 5, 6]);
+      setImageUrls(images);
+      console.log("Set imageUrls:", images);
+    };
+    fetchImages();
+  }, []);
+
+  const showNextImage = () => {
+    setImageIndex((index) => (index === imageUrls.length - 1 ? 0 : index + 1));
+  };
+
+  const showPrevImage = () => {
+    setImageIndex((index) => (index === 0 ? imageUrls.length - 1 : index - 1));
+  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -36,7 +72,13 @@ function ImageSlider({ imageUrls }: ImageSliderProps) {
     }, 5000);
 
     return () => clearInterval(intervalId);
-  }, [imageUrls.length, imageIndex]); // Added dependencies to useEffect to optimize re-render
+  }, [imageUrls.length]);
+
+  if (imageUrls.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  console.log("Rendering images:", imageUrls);
 
   return (
     <div style={{ width: "100%", height: "100%", position: "relative" }}>
@@ -50,11 +92,17 @@ function ImageSlider({ imageUrls }: ImageSliderProps) {
       >
         {imageUrls.map((url, index) => (
           <img
+            className="img-slider-img"
+            style={{
+              translate: `${-100 * imageIndex}%`,
+            }}
             src={url.src}
             alt={url.alt}
             key={index}
-            className="img-slider"
-            style={{ translate: `${-100 * imageIndex}%` }}
+            onError={(e) => {
+              console.error("Error loading image:", url.src);
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
           />
         ))}
       </div>
@@ -84,7 +132,7 @@ function ImageSlider({ imageUrls }: ImageSliderProps) {
       >
         {imageUrls.map((_, index) => (
           <button
-            className="img-slider-dot"
+            className="img-slider-dot-btn"
             key={index}
             onClick={() => setImageIndex(index)}
           >
@@ -94,6 +142,6 @@ function ImageSlider({ imageUrls }: ImageSliderProps) {
       </div>
     </div>
   );
-}
+};
 
 export default ImageSlider;
