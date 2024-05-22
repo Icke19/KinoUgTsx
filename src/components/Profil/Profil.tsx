@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Correct import
+import { jwtDecode } from "jwt-decode";
 import "./Profil.css";
 
 interface UserProfile {
@@ -13,7 +13,7 @@ interface UserProfile {
 interface Ticket {
   id: number;
   row: number;
-  column: number;
+  seatId: number;
   hallId: number;
   date: string;
   movieTitle: string;
@@ -78,7 +78,6 @@ function Profil() {
           },
         );
 
-        // Filter tickets to only include those with the same user ID
         const userTickets = response.data.filter(
           (ticket: Ticket) => ticket.userId === userIdFromToken,
         );
@@ -129,7 +128,7 @@ function Profil() {
                 </p>
                 <p>
                   <strong>Rząd:</strong> {ticket.row}, <strong>Miejsce:</strong>{" "}
-                  {ticket.column}
+                  {ticket.seatId}
                 </p>
                 <p>
                   <strong>Hala:</strong> {ticket.hallId}
