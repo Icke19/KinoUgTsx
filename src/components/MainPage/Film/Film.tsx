@@ -2,7 +2,6 @@ import "./Film.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-// Interfaces are already defined appropriately for the types of data the component expects.
 interface Film {
   id: number; // assuming id is a number
   name: string;
@@ -77,13 +76,13 @@ export default function Film() {
       <h1 className="TextHit">NAJWIĘKSZE HITY!</h1>
       <ul className="films">
         {hits.map((film, idx) => (
-          <img src={film.src} alt={film.alt} key={idx} /> // Use unique id for key if available
+          <img src={film.src} alt={film.alt} key={idx} />
         ))}
       </ul>
       <h1 className="TextHit">WKRÓTCE!</h1>
       <ul className="films">
         {upcoming.map((film, idx) => (
-          <img src={film.src} alt={film.alt} key={idx} /> // Use unique id for key if available
+          <img src={film.src} alt={film.alt} key={idx} />
         ))}
       </ul>
     </div>

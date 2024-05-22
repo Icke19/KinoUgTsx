@@ -3,12 +3,14 @@ body {
     color: white;
     font-family: Arial, sans-serif;
 }
+
 .container {
     padding: 20px;
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
+
 .price-card {
     background-color: #1e1e1e;
     padding: 20px;
@@ -18,6 +20,7 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
 .price-card h2, .price-card p {
     margin: 5px;
 }
@@ -53,19 +56,21 @@ body {
 }
 
 .modal-content {
-    background-color: #1e1e1e;
+    background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+    width: 50%;
 }
 
 .close-button {
     cursor: pointer;
     position: absolute;
     right: 10px;
-    top: 10px;
-    font-size: 18px;
+    bottom: 15px;
+    font-size: 24px;
     background: none;
     border: none;
-    color: white;
+    color: #333;
 }

@@ -7,7 +7,7 @@ interface Seat {
   seatId: number;
   row: number;
   column: number;
-  isReserved?: boolean; // Optional, will be determined locally
+  isReserved?: boolean;
 }
 
 interface Hall {
@@ -17,7 +17,7 @@ interface Hall {
 
 interface Ticket {
   seatId: number;
-  scheduleId: number; // Added scheduleId
+  scheduleId: number;
 }
 
 const fetchHall = async (hallId: number): Promise<Hall> => {
@@ -38,7 +38,7 @@ const fetchReservedSeats = async (scheduleId: number): Promise<number[]> => {
     const response = await axios.get<Ticket[]>(
       `https://localhost:7204/api/Ticket`,
     );
-    console.log("Fetched tickets:", response.data); // Debugging
+    console.log("Fetched tickets:", response.data);
     const reservedSeats = response.data
       .filter((ticket) => ticket.scheduleId === scheduleId)
       .map((ticket) => ticket.seatId);
@@ -72,7 +72,6 @@ const SalaKinowa: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    // Reload hall data when navigating back from another page
     if (location.state && location.state.reload) {
       loadHallData();
     }

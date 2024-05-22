@@ -23,7 +23,7 @@ const Koszyk: React.FC = () => {
             {
               seatId,
               scheduleId: Number(scheduleId),
-              price: 50, // przykładowa cena
+              price: 50,
             },
             {
               headers: {

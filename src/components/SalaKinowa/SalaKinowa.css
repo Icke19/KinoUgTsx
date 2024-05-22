@@ -20,8 +20,8 @@
 .seats {
     margin-top: 50px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns */
-    gap: 1rem; /* Remove gaps between seats */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
     justify-content: center;
 }
 
@@ -29,15 +29,15 @@
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 30px; /* Increase padding for larger seats */
+    padding: 30px;
     cursor: pointer;
     user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px; /* Set width to ensure square shape */
-    height: 60px; /* Set height to ensure square shape */
-    margin: 2px; /* Add small margin to ensure separation without gaps */
+    width: 100px;
+    height: 60px;
+    margin: 2px;
 }
 
 .seat.selected {
