@@ -8,7 +8,6 @@ import SalaKinowa from "./components/SalaKinowa/SalaKinowa.tsx";
 import Koszyk from "./components/Koszyk/Koszyk.tsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Profil from "./components/Profil/Profil.tsx";
-import Hall from "./components/Hall/Hall.tsx";
 
 const PrivateRoute: React.FC<{ component: React.FC }> = ({
   component: Component,
@@ -56,7 +55,6 @@ function App() {
           element={<PrivateRoute component={SalaKinowa} />}
         />
         <Route path="/koszyk" element={<PrivateRoute component={Koszyk} />} />
-        <Route path="/hall" element={<Hall />} />
         <Route path="/profil" element={<Profil />} />
       </Routes>
     </>

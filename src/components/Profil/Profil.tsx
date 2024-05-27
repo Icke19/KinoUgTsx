@@ -18,6 +18,7 @@ interface Ticket {
   date: string;
   movieTitle: string;
   userId: string;
+  scheduleId: number; // Assuming each ticket has a scheduleId field
 }
 
 interface TokenPayload {
@@ -28,9 +29,22 @@ interface TokenPayload {
   unique_name: string;
 }
 
+interface Movie {
+  title: string;
+  image: string | null;
+}
+
+interface Schedule {
+  id: number;
+  movie: Movie;
+}
+
 function Profil() {
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<(Ticket & { movie: Movie | null })[]>(
+    [],
+  );
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -81,9 +95,27 @@ function Profil() {
         const userTickets = response.data.filter(
           (ticket: Ticket) => ticket.userId === userIdFromToken,
         );
-        setTickets(userTickets);
+
+        const ticketsWithMovies = await Promise.all(
+          userTickets.map(async (ticket: Ticket) => {
+            const scheduleResponse = await axios.get(
+              `https://localhost:7204/api/Schedule/${ticket.scheduleId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+            );
+            const schedule: Schedule = scheduleResponse.data;
+            return { ...ticket, movie: schedule.movie };
+          }),
+        );
+
+        setTickets(ticketsWithMovies);
       } catch (error) {
         console.error("Error fetching user tickets:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -116,22 +148,33 @@ function Profil() {
       </div>
       <div className="tickets-container">
         <h2>Twoje bilety:</h2>
-        {tickets.length > 0 ? (
+        {loading ? (
+          <p>Loading...</p>
+        ) : tickets.length > 0 ? (
           <ul>
             {tickets.map((ticket) => (
               <li key={ticket.id}>
-                <p>
-                  <strong>Film:</strong> {ticket.movieTitle}
-                </p>
+                {ticket.movie && (
+                  <>
+                    <p>
+                      <strong>Film:</strong> {ticket.movie.title}
+                    </p>
+                    {ticket.movie.image ? (
+                      <img
+                        src={ticket.movie.image}
+                        alt={ticket.movie.title}
+                        width="100"
+                      />
+                    ) : (
+                      <p>No image available</p>
+                    )}
+                  </>
+                )}
                 <p>
                   <strong>Data:</strong> {ticket.date}
                 </p>
                 <p>
-                  <strong>Rząd:</strong> {ticket.row}, <strong>Miejsce:</strong>{" "}
-                  {ticket.seatId}
-                </p>
-                <p>
-                  <strong>Hala:</strong> {ticket.hallId}
+                  <strong>Miejsce:</strong> {ticket.seatId}
                 </p>
               </li>
             ))}
