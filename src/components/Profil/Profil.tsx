@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "./Profil.css";
+import { useTheme } from "../ThemeContext";
 
 interface UserProfile {
   name: string;
@@ -27,6 +28,7 @@ interface TokenPayload {
   name: string;
   family_name: string;
   unique_name: string;
+  role: string[];
 }
 
 interface Movie {
@@ -45,6 +47,8 @@ function Profil() {
     [],
   );
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const { isDarkMode } = useTheme();
 
   const navigate = useNavigate();
 
@@ -66,6 +70,9 @@ function Profil() {
           },
         );
         setUser(response.data);
+
+        const decodedToken = jwtDecode<TokenPayload>(token);
+        setIsAdmin(decodedToken.role.includes("Admin"));
       } catch (error) {
         console.error("Error fetching user profile:", error);
         navigate("/login");
@@ -133,8 +140,10 @@ function Profil() {
   }
 
   return (
-    <div className="profile-container">
-      <h1 style={{ color: "white" }}>Profil Użytkownika</h1>
+    <div className={`profile-container ${isDarkMode ? "dark" : "light"}`}>
+      <h1 style={{ color: isDarkMode ? "white" : "#1e1e1e" }}>
+        Profil Użytkownika
+      </h1>
       <div className="profile-info">
         <p>
           <strong>Imię:</strong> {user.name}
@@ -153,7 +162,7 @@ function Profil() {
         ) : tickets.length > 0 ? (
           <ul>
             {tickets.map((ticket) => (
-              <li key={ticket.id}>
+              <li key={ticket.id} className={isDarkMode ? "dark" : "light"}>
                 {ticket.movie && (
                   <>
                     <p>
@@ -183,6 +192,17 @@ function Profil() {
           <p>Brak zakupionych biletów.</p>
         )}
       </div>
+      {isAdmin && (
+        <div className={`admin-section ${isDarkMode ? "dark" : "light"}`}>
+          <h2>Admin Section</h2>
+          <button onClick={() => navigate("/manage-movies")}>
+            Manage Movies
+          </button>
+          <button onClick={() => navigate("/manage-users")}>
+            Manage Users
+          </button>
+        </div>
+      )}
       <button className="logout-button" onClick={handleLogout}>
         Wyloguj się
       </button>

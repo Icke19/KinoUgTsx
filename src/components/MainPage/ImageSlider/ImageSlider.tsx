@@ -49,7 +49,7 @@ const ImageSlider = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      const images = await fetchImagesByIds([4, 5, 6]);
+      const images = await fetchImagesByIds([8, 9, 11]);
       setImageUrls(images);
       console.log("Set imageUrls:", images);
     };

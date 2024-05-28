@@ -8,6 +8,9 @@ import SalaKinowa from "./components/SalaKinowa/SalaKinowa.tsx";
 import Koszyk from "./components/Koszyk/Koszyk.tsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Profil from "./components/Profil/Profil.tsx";
+import ManageMovies from "./components/Profil/ManageMovies/ManageMovies.tsx";
+import ManageUsers from "./components/Profil/ManageUsers/ManageUsers.tsx";
+import { ThemeProvider } from "./components/ThemeContext.tsx";
 
 const PrivateRoute: React.FC<{ component: React.FC }> = ({
   component: Component,
@@ -40,23 +43,27 @@ function App() {
 
   return (
     <>
-      <NewNavbar
-        onButtonClick={showModal}
-        isModalOpen={isModalOpen}
-        hideModal={hideModal}
-      />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/repertuar" element={<Repertuar />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/salakinowa/:id"
-          element={<PrivateRoute component={SalaKinowa} />}
+      <ThemeProvider>
+        <NewNavbar
+          onButtonClick={showModal}
+          isModalOpen={isModalOpen}
+          hideModal={hideModal}
         />
-        <Route path="/koszyk" element={<PrivateRoute component={Koszyk} />} />
-        <Route path="/profil" element={<Profil />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/repertuar" element={<Repertuar />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/salakinowa/:id"
+            element={<PrivateRoute component={SalaKinowa} />}
+          />
+          <Route path="/koszyk" element={<PrivateRoute component={Koszyk} />} />
+          <Route path="/profil" element={<Profil />} />
+          <Route path="/manage-movies" element={<ManageMovies />} />
+          <Route path="/manage-users" element={<ManageUsers />} />
+        </Routes>
+      </ThemeProvider>
     </>
   );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Koszyk.css";
+import { useTheme } from "../ThemeContext"; // Importuj kontekst
 
 interface State {
   selectedSeats: number[];
@@ -13,6 +14,7 @@ const Koszyk: React.FC = () => {
   const navigate = useNavigate();
   const state = location.state as State;
   const { selectedSeats, scheduleId } = state;
+  const { isDarkMode } = useTheme(); // Użyj kontekstu
 
   const handleConfirmPurchase = async () => {
     try {
@@ -42,7 +44,7 @@ const Koszyk: React.FC = () => {
   };
 
   return (
-    <div className="koszyk">
+    <div className={`koszyk ${isDarkMode ? "dark" : ""}`}>
       <h2>Koszyk</h2>
       <p>Wybrane miejsca: {selectedSeats.join(", ")}</p>
       <button onClick={handleConfirmPurchase}>Potwierdź zakup</button>

@@ -1,6 +1,7 @@
 import "./Film.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useTheme } from "../../ThemeContext";
 
 interface Film {
   id: number; // assuming id is a number
@@ -24,65 +25,69 @@ interface ImageUrl {
 export default function Film() {
   const [hits, setHits] = useState<ImageUrl[]>([]);
   const [upcoming, setUpcoming] = useState<ImageUrl[]>([]);
+  const { isDarkMode } = useTheme();
 
-  const fetchImagesByIds = async (ids: number[]) => {
-    try {
-      const response = await axios.get<Movie[]>(
-        `https://localhost:7204/api/Movie/GetMoviesByIds`,
-        {
-          params: { ids },
-          paramsSerializer: (params) => {
-            return Object.keys(params)
-              .map((key) =>
-                params[key].map((val: number) => `${key}=${val}`).join("&"),
-              )
-              .join("&");
+  useEffect(() => {
+    const fetchImagesByIds = async (ids: number[]) => {
+      try {
+        const response = await axios.get<Movie[]>(
+          `https://localhost:7204/api/Movie/GetMoviesByIds`,
+          {
+            params: { ids },
+            paramsSerializer: (params) => {
+              return Object.keys(params)
+                .map((key) =>
+                  params[key].map((val: number) => `${key}=${val}`).join("&"),
+                )
+                .join("&");
+            },
           },
-        },
-      );
-      console.log("Fetched movies:", response.data);
-      const images = response.data.map((movie) => ({
-        src: movie.image,
-        alt: movie.title,
-      }));
-      console.log("Mapped images:", images);
-      return images;
-    } catch (error) {
-      console.error("Error fetching images:", error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      const images = await fetchImagesByIds([7, 8, 9]);
-      setHits(images);
-      console.log("Set imageUrls:", images);
+        );
+        const images = response.data.map((movie) => ({
+          src: movie.image,
+          alt: movie.title,
+        }));
+        return images;
+      } catch (error) {
+        console.error("Error fetching images:", error);
+        return [];
+      }
     };
-    fetchImages();
-  }, []);
 
-  useEffect(() => {
     const fetchImages = async () => {
-      const images = await fetchImagesByIds([14, 15, 16]);
-      setUpcoming(images);
-      console.log("Set imageUrls:", images);
+      const hitsImages = await fetchImagesByIds([12, 13, 14]);
+      setHits(hitsImages);
+      const upcomingImages = await fetchImagesByIds([19, 20, 21]);
+      setUpcoming(upcomingImages);
     };
+
     fetchImages();
   }, []);
 
   return (
     <div className="FilmMenu">
-      <h1 className="TextHit">NAJWIĘKSZE HITY!</h1>
-      <ul className="films">
+      <h1 className={`TextHit ${isDarkMode ? "dark" : "light"}`}>
+        NAJWIĘKSZE HITY!
+      </h1>
+      <ul className={`films ${isDarkMode ? "dark" : "light"}`}>
         {hits.map((film, idx) => (
-          <img src={film.src} alt={film.alt} key={idx} />
+          <img
+            src={film.src}
+            alt={film.alt}
+            key={idx}
+            className={isDarkMode ? "dark" : "light"}
+          />
         ))}
       </ul>
-      <h1 className="TextHit">WKRÓTCE!</h1>
-      <ul className="films">
+      <h1 className={`TextHit ${isDarkMode ? "dark" : "light"}`}>WKRÓTCE!</h1>
+      <ul className={`films ${isDarkMode ? "dark" : "light"}`}>
         {upcoming.map((film, idx) => (
-          <img src={film.src} alt={film.alt} key={idx} />
+          <img
+            src={film.src}
+            alt={film.alt}
+            key={idx}
+            className={isDarkMode ? "dark" : "light"}
+          />
         ))}
       </ul>
     </div>
