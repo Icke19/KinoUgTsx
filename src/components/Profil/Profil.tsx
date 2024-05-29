@@ -62,7 +62,7 @@ function Profil() {
         }
 
         const response = await axios.get(
-          "https://localhost:7204/api/User/GetCurrentUser",
+          "https://localhost:7205/api/User/GetCurrentUser",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -91,7 +91,7 @@ function Profil() {
         const userIdFromToken = decodedToken.nameid;
 
         const response = await axios.get(
-          "https://localhost:7204/api/Ticket/GetTicket",
+          "https://localhost:7205/api/Ticket/GetTicket",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -106,7 +106,7 @@ function Profil() {
         const ticketsWithMovies = await Promise.all(
           userTickets.map(async (ticket: Ticket) => {
             const scheduleResponse = await axios.get(
-              `https://localhost:7204/api/Schedule/${ticket.scheduleId}`,
+              `https://localhost:7205/api/Schedule/${ticket.scheduleId}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -141,22 +141,20 @@ function Profil() {
 
   return (
     <div className={`profile-container ${isDarkMode ? "dark" : "light"}`}>
-      <h1 style={{ color: isDarkMode ? "white" : "#1e1e1e" }}>
-        Profil Użytkownika
-      </h1>
+      <h1 style={{ color: isDarkMode ? "white" : "#1e1e1e" }}>Profile Info</h1>
       <div className="profile-info">
         <p>
-          <strong>Imię:</strong> {user.name}
+          <strong>Name:</strong> {user.name}
         </p>
         <p>
-          <strong>Nazwisko:</strong> {user.surname}
+          <strong>Surname:</strong> {user.surname}
         </p>
         <p>
           <strong>Email:</strong> {user.email}
         </p>
       </div>
       <div className="tickets-container">
-        <h2>Twoje bilety:</h2>
+        <h2>Tickets:</h2>
         {loading ? (
           <p>Loading...</p>
         ) : tickets.length > 0 ? (
@@ -166,7 +164,7 @@ function Profil() {
                 {ticket.movie && (
                   <>
                     <p>
-                      <strong>Film:</strong> {ticket.movie.title}
+                      <strong>Movie:</strong> {ticket.movie.title}
                     </p>
                     {ticket.movie.image ? (
                       <img
@@ -183,13 +181,13 @@ function Profil() {
                   <strong>Data:</strong> {ticket.date}
                 </p>
                 <p>
-                  <strong>Miejsce:</strong> {ticket.seatId}
+                  <strong>Seat:</strong> {ticket.seatId}
                 </p>
               </li>
             ))}
           </ul>
         ) : (
-          <p>Brak zakupionych biletów.</p>
+          <p>No purchased tickets.</p>
         )}
       </div>
       {isAdmin && (
@@ -204,7 +202,7 @@ function Profil() {
         </div>
       )}
       <button className="logout-button" onClick={handleLogout}>
-        Wyloguj się
+        Logout
       </button>
     </div>
   );

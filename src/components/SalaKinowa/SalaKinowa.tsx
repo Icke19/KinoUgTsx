@@ -22,7 +22,7 @@ interface Ticket {
 
 const fetchHall = async (hallId: number): Promise<Hall> => {
   try {
-    const response = await axios.get<Hall>(`https://localhost:7204/api/Hall/1`);
+    const response = await axios.get<Hall>(`https://localhost:7205/api/Hall/1`);
     console.log("Fetched hall data:", response.data); // Debugging
     return response.data;
   } catch (error) {
@@ -34,7 +34,7 @@ const fetchHall = async (hallId: number): Promise<Hall> => {
 const fetchReservedSeats = async (scheduleId: number): Promise<number[]> => {
   try {
     const response = await axios.get<Ticket[]>(
-      `https://localhost:7204/api/Ticket/GetTicket`,
+      `https://localhost:7205/api/Ticket/GetTicket`,
     );
     console.log("Fetched tickets:", response.data);
     const reservedSeats = response.data

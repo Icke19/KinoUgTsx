@@ -21,7 +21,7 @@ const Koszyk: React.FC = () => {
       await Promise.all(
         selectedSeats.map((seatId: number) =>
           axios.post(
-            "https://localhost:7204/api/Ticket",
+            "https://localhost:7205/api/Ticket",
             {
               seatId,
               scheduleId: Number(scheduleId),

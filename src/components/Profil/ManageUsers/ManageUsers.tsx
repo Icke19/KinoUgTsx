@@ -9,6 +9,8 @@ interface Ticket {
   price: number;
   seatId: number;
   scheduleId: number;
+  movieTitle: string; // Add movie title
+  movieImage: string; // Add movie image
 }
 
 interface User {
@@ -31,7 +33,7 @@ const ManageUsers = () => {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "https://localhost:7204/api/User/GetUsers",
+        "https://localhost:7205/api/User/GetUsers",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -69,14 +71,31 @@ const ManageUsers = () => {
             <p>{user.email}</p>
             <button onClick={() => deleteUser(user.email)}>Delete</button>
             <h4>Tickets:</h4>
-            <ul>
+            <div className="ticket-container">
               {(user.userTickets ?? []).map((ticket) => (
-                <li key={ticket.id}>
-                  Seat: {ticket.seatId}, Schedule: {ticket.scheduleId}, Price: $
-                  {ticket.price}
-                </li>
+                <div
+                  key={ticket.id}
+                  className={`ticket-item ${isDarkMode ? "dark" : "light"}`}
+                >
+                  <img
+                    src={ticket.movieImage}
+                    alt={ticket.movieTitle}
+                    width="100"
+                  />
+                  <div className="ticket-info">
+                    <p>
+                      <strong>Film:</strong> {ticket.movieTitle}
+                    </p>
+                    <p>
+                      <strong>Data:</strong> {ticket.scheduleId}
+                    </p>
+                    <p>
+                      <strong>Miejsce:</strong> {ticket.seatId}
+                    </p>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </li>
         ))}
       </ul>

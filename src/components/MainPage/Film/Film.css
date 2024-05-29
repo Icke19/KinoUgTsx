@@ -39,7 +39,7 @@
     margin-top: 20px;
     margin-left: 40px;
     letter-spacing: 2px;
-    font-family: Arial, sans-serif;
+    font-family: monospace, "Courier New";
 }
 
 .TextHit.dark {

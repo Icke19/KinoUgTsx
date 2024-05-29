@@ -25,7 +25,7 @@ const ManageMovies = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get("https://localhost:7204/api/Movie", {
+      const response = await axios.get("https://localhost:7205/api/Movie", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -39,7 +39,7 @@ const ManageMovies = () => {
   const addMovie = async () => {
     try {
       const newMovie = { title, description, image };
-      await axios.post("https://localhost:7204/api/Movie", newMovie, {
+      await axios.post("https://localhost:7205/api/Movie", newMovie, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -55,7 +55,7 @@ const ManageMovies = () => {
 
   const deleteMovie = async (id: number) => {
     try {
-      await axios.delete(`https://localhost:7204/api/Movie/${id}`, {
+      await axios.delete(`https://localhost:7205/api/Movie/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

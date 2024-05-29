@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NewNavbar from "./components/NowyNavbar/NewNavbar.tsx";
+import Navbar from "./components/NowyNavbar/Navbar.tsx";
 import MainPage from "./components/MainPage/MainPage.tsx";
 import Repertuar from "./components/Repertuar/Repertuar.tsx";
 import Login from "./components/Login/Login.tsx";
@@ -11,6 +11,7 @@ import Profil from "./components/Profil/Profil.tsx";
 import ManageMovies from "./components/Profil/ManageMovies/ManageMovies.tsx";
 import ManageUsers from "./components/Profil/ManageUsers/ManageUsers.tsx";
 import { ThemeProvider } from "./components/ThemeContext.tsx";
+// import Footer from "./components/Footer/Footer.tsx";
 
 const PrivateRoute: React.FC<{ component: React.FC }> = ({
   component: Component,
@@ -44,7 +45,7 @@ function App() {
   return (
     <>
       <ThemeProvider>
-        <NewNavbar
+        <Navbar
           onButtonClick={showModal}
           isModalOpen={isModalOpen}
           hideModal={hideModal}
@@ -63,6 +64,7 @@ function App() {
           <Route path="/manage-movies" element={<ManageMovies />} />
           <Route path="/manage-users" element={<ManageUsers />} />
         </Routes>
+        {/*<Footer />*/}
       </ThemeProvider>
     </>
   );

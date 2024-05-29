@@ -16,6 +16,7 @@
 
 .tickets-container {
     margin-top: 20px;
+
 }
 
 .tickets-container ul {
@@ -25,7 +26,7 @@
 
 .tickets-container li {
     background-color: #444;
-    margin-bottom: 10px;
+    margin: 10px 0;
     padding: 10px;
     border-radius: 4px;
     text-align: left;

@@ -56,13 +56,16 @@ function Register() {
       console.log("Form submitted");
       alert("Rejestracja zakończona pomyślnie!");
     }
-    try{
-      const response = await axios.post("http://localhost:5269/api/Account/register", form);
+    try {
+      const response = await axios.post(
+        "http://localhost:5268/api/Account/register",
+        form,
+      );
       if (response.status === 200) {
         alert(response.data.message);
-        navigate('/login');
+        navigate("/login");
       }
-    }catch(error) {
+    } catch (error) {
       alert("Rejestracja nie powiodła się");
     }
   };
@@ -113,8 +116,6 @@ function Register() {
     return newErrors;
   };
 
-
-
   return (
     <>
       <form className="container" onSubmit={handleSubmit}>
@@ -124,28 +125,28 @@ function Register() {
         </div>
         <div className="inputs">
           <input
-              className="input"
-              type="text"
-              name="name"
-              placeholder="Imie"
-              value={form.name}
-              onChange={handleInputChange}
+            className="input"
+            type="text"
+            name="name"
+            placeholder="Imie"
+            value={form.name}
+            onChange={handleInputChange}
           />
           <input
-              className="input"
-              type="text"
-              name="surname"
-              placeholder="Nazwisko"
-              value={form.surname}
-              onChange={handleInputChange}
+            className="input"
+            type="text"
+            name="surname"
+            placeholder="Nazwisko"
+            value={form.surname}
+            onChange={handleInputChange}
           />
           <input
-              className="input"
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleInputChange}
+            className="input"
+            type="text"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleInputChange}
           />
           {errors.email && <div className="error">{errors.email}</div>}
           {/*<input*/}
@@ -158,24 +159,24 @@ function Register() {
           {/*/>*/}
           {errors.userName && <div className="error">{errors.userName}</div>}
           <input
-              className="input"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Hasło"
-              value={form.password}
-              onChange={handleInputChange}
+            className="input"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Hasło"
+            value={form.password}
+            onChange={handleInputChange}
           />
           {errors.password && <div className="error">{errors.password}</div>}
           <input
-              className="input"
-              type={showPassword ? "text" : "password"}
-              name="confirmPassword"
-              placeholder="Potwierdź hasło"
-              value={form.confirmPassword}
-              onChange={handleInputChange}
+            className="input"
+            type={showPassword ? "text" : "password"}
+            name="confirmPassword"
+            placeholder="Potwierdź hasło"
+            value={form.confirmPassword}
+            onChange={handleInputChange}
           />
           {errors.confirmPassword && (
-              <div className="error">{errors.confirmPassword}</div>
+            <div className="error">{errors.confirmPassword}</div>
           )}
         </div>
         <div>
@@ -183,9 +184,9 @@ function Register() {
             Pokaż hasło
           </label>
           <input
-              id="check"
-              className="checkbox"
-              type="checkbox"
+            id="check"
+            className="checkbox"
+            type="checkbox"
             checked={showPassword}
             onChange={(e) => setShowPassword(e.target.checked)}
           />

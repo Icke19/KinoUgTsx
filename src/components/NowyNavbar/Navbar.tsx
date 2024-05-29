@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./NewNavbar.css";
+import "./Navbar.css";
 import PriceList from "../PriceList/PriceList.tsx";
 import { useTheme } from "../ThemeContext";
 
@@ -9,7 +9,7 @@ interface Props {
   onButtonClick: () => void;
 }
 
-function NewNavbar({ isModalOpen, hideModal, onButtonClick }: Props) {
+function Navbar({ isModalOpen, hideModal, onButtonClick }: Props) {
   const { isDarkMode, toggleDarkMode } = useTheme();
 
   const isLoggedIn = () => {
@@ -50,4 +50,4 @@ function NewNavbar({ isModalOpen, hideModal, onButtonClick }: Props) {
   );
 }
 
-export default NewNavbar;
+export default Navbar;

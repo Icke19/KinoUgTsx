@@ -14,7 +14,7 @@ interface MinSchedule {
 const fetchScheduleList = async (): Promise<MinSchedule[]> => {
   try {
     const response = await axios.get<MinSchedule[]>(
-      "https://localhost:7204/api/Schedule/all",
+      "https://localhost:7205/api/Schedule/all",
     );
     return response.data;
   } catch (error) {

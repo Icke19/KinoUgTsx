@@ -31,7 +31,7 @@ export default function Film() {
     const fetchImagesByIds = async (ids: number[]) => {
       try {
         const response = await axios.get<Movie[]>(
-          `https://localhost:7204/api/Movie/GetMoviesByIds`,
+          `https://localhost:7205/api/Movie/GetMoviesByIds`,
           {
             params: { ids },
             paramsSerializer: (params) => {
@@ -57,7 +57,7 @@ export default function Film() {
     const fetchImages = async () => {
       const hitsImages = await fetchImagesByIds([12, 13, 14]);
       setHits(hitsImages);
-      const upcomingImages = await fetchImagesByIds([19, 20, 21]);
+      const upcomingImages = await fetchImagesByIds([19, 1004, 1005]);
       setUpcoming(upcomingImages);
     };
 
