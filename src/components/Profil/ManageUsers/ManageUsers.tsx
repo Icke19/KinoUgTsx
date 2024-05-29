@@ -4,11 +4,19 @@ import { useNavigate } from "react-router-dom";
 import "./ManageUsers.css";
 import { useTheme } from "../../ThemeContext";
 
+interface Ticket {
+  id: string;
+  price: number;
+  seatId: number;
+  scheduleId: number;
+}
+
 interface User {
   id: string;
   name: string;
   surname: string;
   email: string;
+  userTickets?: Ticket[]; // Make userTickets optional
 }
 
 const ManageUsers = () => {
@@ -60,6 +68,15 @@ const ManageUsers = () => {
             </h3>
             <p>{user.email}</p>
             <button onClick={() => deleteUser(user.email)}>Delete</button>
+            <h4>Tickets:</h4>
+            <ul>
+              {(user.userTickets ?? []).map((ticket) => (
+                <li key={ticket.id}>
+                  Seat: {ticket.seatId}, Schedule: {ticket.scheduleId}, Price: $
+                  {ticket.price}
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>

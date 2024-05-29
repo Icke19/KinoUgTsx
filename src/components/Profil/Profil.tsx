@@ -19,7 +19,7 @@ interface Ticket {
   date: string;
   movieTitle: string;
   userId: string;
-  scheduleId: number; // Assuming each ticket has a scheduleId field
+  scheduleId: number;
 }
 
 interface TokenPayload {
