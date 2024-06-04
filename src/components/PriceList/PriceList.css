@@ -62,15 +62,32 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     position: relative;
     width: 50%;
+    max-width: 600px;
 }
 
 .close-button {
     cursor: pointer;
     position: absolute;
     right: 10px;
-    bottom: 15px;
+    top: 10px;
     font-size: 24px;
     background: none;
     border: none;
     color: #333;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 70%;
+    }
+}
+
+@media (max-width: 430px) {
+    .modal-content {
+        width: 90%;
+    }
+
+    .close-button {
+        font-size: 20px;
+    }
 }

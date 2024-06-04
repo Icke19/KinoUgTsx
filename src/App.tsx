@@ -1,17 +1,16 @@
 import { useState } from "react";
-import Navbar from "./components/NowyNavbar/Navbar.tsx";
+import Navbar from "./components/Navbar/Navbar.tsx";
 import MainPage from "./components/MainPage/MainPage.tsx";
 import Repertuar from "./components/Repertuar/Repertuar.tsx";
-import Login from "./components/Login/Login.tsx";
-import Register from "./components/Register/Register.tsx";
+import Login from "./components/LoginAndRegister/Login.tsx";
+import Register from "./components/LoginAndRegister/Register.tsx";
 import SalaKinowa from "./components/SalaKinowa/SalaKinowa.tsx";
-import Koszyk from "./components/Koszyk/Koszyk.tsx";
+import Cart from "./components/Cart/Cart.tsx";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Profil from "./components/Profil/Profil.tsx";
-import ManageMovies from "./components/Profil/ManageMovies/ManageMovies.tsx";
-import ManageUsers from "./components/Profil/ManageUsers/ManageUsers.tsx";
+import Profile from "./components/Profile/Profile.tsx";
+import ManageMovies from "./components/Profile/ManageMovies/ManageMovies.tsx";
+import ManageUsers from "./components/Profile/ManageUsers/ManageUsers.tsx";
 import { ThemeProvider } from "./components/ThemeContext.tsx";
-// import Footer from "./components/Footer/Footer.tsx";
 
 const PrivateRoute: React.FC<{ component: React.FC }> = ({
   component: Component,
@@ -22,11 +21,6 @@ const PrivateRoute: React.FC<{ component: React.FC }> = ({
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [zarezerwowaneMiejsca, setZarezerwowaneMiejsca] = useState<number[]>(
-  //   [],
-  // );
-
-  // const [cenaBiletu, setCenaBiletu] = useState<number>(0);
 
   function showModal() {
     setIsModalOpen(true);
@@ -35,12 +29,6 @@ function App() {
   function hideModal() {
     setIsModalOpen(false);
   }
-
-  // function handlePotwierdzRezerwacje(zarezerwowaneMiejsca: number[]) {
-  //   const cena = zarezerwowaneMiejsca.length * 20; // Assuming each seat costs 20
-  //   setCenaBiletu(cena);
-  //   setZarezerwowaneMiejsca(zarezerwowaneMiejsca);
-  // }
 
   return (
     <>
@@ -59,12 +47,11 @@ function App() {
             path="/salakinowa/:id"
             element={<PrivateRoute component={SalaKinowa} />}
           />
-          <Route path="/koszyk" element={<PrivateRoute component={Koszyk} />} />
-          <Route path="/profil" element={<Profil />} />
+          <Route path="/koszyk" element={<PrivateRoute component={Cart} />} />
+          <Route path="/profil" element={<Profile />} />
           <Route path="/manage-movies" element={<ManageMovies />} />
           <Route path="/manage-users" element={<ManageUsers />} />
         </Routes>
-        {/*<Footer />*/}
       </ThemeProvider>
     </>
   );

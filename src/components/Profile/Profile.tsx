@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import "./Profil.css";
+import "./Profile.css";
 import { useTheme } from "../ThemeContext";
 
 interface UserProfile {
@@ -41,7 +41,7 @@ interface Schedule {
   movie: Movie;
 }
 
-function Profil() {
+function Profile() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [tickets, setTickets] = useState<(Ticket & { movie: Movie | null })[]>(
     [],
@@ -153,8 +153,8 @@ function Profil() {
           <strong>Email:</strong> {user.email}
         </p>
       </div>
+      <h2>Tickets:</h2>
       <div className="tickets-container">
-        <h2>Tickets:</h2>
         {loading ? (
           <p>Loading...</p>
         ) : tickets.length > 0 ? (
@@ -208,4 +208,4 @@ function Profil() {
   );
 }
 
-export default Profil;
+export default Profile;

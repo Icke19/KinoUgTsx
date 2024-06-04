@@ -1,20 +1,20 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Koszyk.css";
-import { useTheme } from "../ThemeContext"; // Importuj kontekst
+import "./Cart.css";
+import { useTheme } from "../ThemeContext";
 
 interface State {
   selectedSeats: number[];
   scheduleId: string;
 }
 
-const Koszyk: React.FC = () => {
+const Cart: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as State;
   const { selectedSeats, scheduleId } = state;
-  const { isDarkMode } = useTheme(); // Użyj kontekstu
+  const { isDarkMode } = useTheme();
 
   const handleConfirmPurchase = async () => {
     try {
@@ -52,4 +52,4 @@ const Koszyk: React.FC = () => {
   );
 };
 
-export default Koszyk;
+export default Cart;

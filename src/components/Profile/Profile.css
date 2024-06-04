@@ -4,6 +4,7 @@
     color: white;
     border-radius: 8px;
     width: 80%;
+    max-width: 800px;
     margin: 0 auto;
     margin-top: 50px;
     text-align: center;
@@ -16,17 +17,19 @@
 
 .tickets-container {
     margin-top: 20px;
-
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
 }
 
 .tickets-container ul {
     list-style-type: none;
     padding: 0;
+    display: contents;
 }
 
 .tickets-container li {
     background-color: #444;
-    margin: 10px 0;
     padding: 10px;
     border-radius: 4px;
     text-align: left;
@@ -46,7 +49,7 @@
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin: 5px; /* Add margin to create space between buttons */
+    margin: 5px;
 }
 
 .admin-section button:hover {
@@ -78,4 +81,65 @@
 
 .admin-section.light {
     background-color: #cdcccc;
+}
+
+@media (max-width: 1200px) {
+    .tickets-container {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .tickets-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        width: 90%;
+    }
+
+    .admin-section button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .logout-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .tickets-container li {
+        padding: 8px;
+    }
+
+    .tickets-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 430px) {
+    .profile-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .admin-section button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .logout-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .tickets-container li {
+        padding: 6px;
+    }
+
+    .tickets-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }

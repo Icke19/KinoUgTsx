@@ -9,8 +9,8 @@ interface Ticket {
   price: number;
   seatId: number;
   scheduleId: number;
-  movieTitle: string; // Add movie title
-  movieImage: string; // Add movie image
+  movieTitle: string;
+  movieImage: string;
 }
 
 interface User {
@@ -18,7 +18,7 @@ interface User {
   name: string;
   surname: string;
   email: string;
-  userTickets?: Ticket[]; // Make userTickets optional
+  userTickets?: Ticket[];
 }
 
 const ManageUsers = () => {
@@ -48,7 +48,7 @@ const ManageUsers = () => {
 
   const deleteUser = async (email: string) => {
     try {
-      await axios.delete(`https://localhost:7204/api/User/${email}`, {
+      await axios.delete(`https://localhost:7205/api/User/${email}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

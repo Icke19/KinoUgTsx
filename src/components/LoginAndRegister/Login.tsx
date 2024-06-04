@@ -1,4 +1,4 @@
-import "./Login.css";
+import "./LoginAndRegister.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -62,9 +62,8 @@ function Login() {
         if (response.data.token) {
           console.log("Form submitted");
           alert("Logowanie się powiodło!");
-          // Optionally store the token in localStorage or state
           localStorage.setItem("token", response.data.token);
-          navigate("/"); // Redirecting to the home page after successful login
+          navigate("/");
         } else {
           setErrors({ password: "Nieprawidłowy email lub hasło." });
         }

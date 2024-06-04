@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "../../ThemeContext";
 
 interface Film {
-  id: number; // assuming id is a number
+  id: number;
   name: string;
   src: string;
   alt: string;

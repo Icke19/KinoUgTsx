@@ -3,8 +3,8 @@ import ImageSlider from "./ImageSlider/ImageSlider.tsx";
 import Film from "./Film/Film.tsx";
 
 interface MainPageProps {
-  isModalOpen?: boolean; // Optional prop with a default value
-  hideModal?: () => void; // Optional prop with a default value
+  isModalOpen?: boolean;
+  hideModal?: () => void;
 }
 
 function MainPage({ isModalOpen = false, hideModal }: MainPageProps) {

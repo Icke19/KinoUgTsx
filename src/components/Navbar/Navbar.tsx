@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 import PriceList from "../PriceList/PriceList.tsx";
 import { useTheme } from "../ThemeContext";
+import { useState } from "react";
 
 interface Props {
   isModalOpen: boolean;
@@ -11,9 +12,14 @@ interface Props {
 
 function Navbar({ isModalOpen, hideModal, onButtonClick }: Props) {
   const { isDarkMode, toggleDarkMode } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isLoggedIn = () => {
     return !!localStorage.getItem("token");
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -23,7 +29,10 @@ function Navbar({ isModalOpen, hideModal, onButtonClick }: Props) {
         <Link to="/" className="site-title">
           Moje Kino
         </Link>
-        <ul>
+        <button className="menu-toggle-button" onClick={toggleMenu}>
+          {isMenuOpen ? "X" : "☰"}
+        </button>
+        <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
           <li>
             <button onClick={toggleDarkMode} className="mode-toggle-button">
               {isDarkMode ? "Light Mode" : "Dark Mode"}
